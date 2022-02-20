@@ -1,51 +1,195 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const { off } = require('process');
+
+
+class Employee{
+  constructor(name,id,email){
+    this.name = name;
+    this.id = id;
+    //this.officeNo = officeNo;
+    this.email = email;
+  }
+  getName(){
+    return this.name;
+  }
+  getId(){return this.id;}
+
+  getEmail(){return this.email;}
+
+  getRole(){return "Employee";}
+}
+
+
+class Manager extends Employee{
+  constructor(name,id, officeNo,email){
+    super(name, id, email);
+    this.officeNo = officeNo;
+  }
+
+  getRole(){return "Manager";};
+
+  getOfficeNo(){return this.officeNo;}
+
+  team = [];
+}
+
+class Engineer extends Employee{
+  constructor(name,id,email, github){
+    super(name, id,email);
+    this.github = github;
+  }
+  getGithub(){return this.github;}
+
+  getRole(){return "Engineer";}
+}
+
+class Intern extends Employee{
+  constructor(name,id,email, school){
+    super(name, id, email);
+    this.school = school;
+  }
+
+  getSchool(){return this.school;}
+
+  getRole(){return "Intern";}
+}
 
 
 
-const promptUser = () => {
-  return inquirer.prompt([
+
+ function promptManager(){
+  return  inquirer.prompt([
     {
       type: 'input',
-      name: 'name',
-      message: 'What is your name?',
+      name: 'managerName',
+      message: "What's the manager's name?",
     },
     {
       type: 'input',
-      name: 'location',
-      message: 'Where are you from?',
+      name: 'managerID',
+      message: "What's the manager employee ID?",
     },
     {
       type: 'input',
-      name: 'hobby',
-      message: 'What is your favorite hobby?',
+      name: 'managerEmail',
+      message: "What's the manager employee email?",
     },
     {
       type: 'input',
-      name: 'food',
-      message: 'What is your favorite food?',
+      name: 'managerOffice',
+      message: "What's the manager office no?",
     },
+  
     {
-      type: 'input',
-      name: 'github',
-      message: 'Enter your GitHub Username',
-    },
-    {
-      type: 'input',
-      name: 'linkedin',
-      message: 'Enter your LinkedIn URL.',
-    },
+      type: 'list',
+      message: 'Would you like to add another team member?',
+      name: 'addMember',
+      choices: ['Engineer', 'Intern', 'No thanks'],
+  },
   ]);
 };
 
-const generateHTML = ({ name, location, github, linkedin }) =>
-  `<!DOCTYPE html>
+ function promptEngineer(){return inquirer.prompt([
+  {
+    type: 'input',
+    name: 'engName',
+    message: "What's the Engineer's name?",
+  },
+  {
+    type: 'input',
+    name: 'engID',
+    message: "What's the engineer employee ID?",
+  },
+  {
+    type: 'input',
+    name: 'engEmail',
+    message: "What's the engineer email?",
+  },
+  {
+    type: 'input',
+    name: 'engGithub',
+    message: "What's the engineer's github?",
+  },
+
+  {
+    type: 'list',
+    message: 'Would you like to add another team member?',
+    name: 'addMember',
+    choices: ['Engineer', 'Intern', 'No thanks'],
+},
+]);
+};
+
+  
+
+ function promptIntern(){
+  return  inquirer.prompt([
+    {
+      type: 'input',
+      name: 'internName',
+      message: "What's the intern's name?",
+    },
+    {
+      type: 'input',
+      name: 'internID',
+      message: "What's the intern employee ID?",
+    },
+    {
+      type: 'input',
+      name: 'internEmail',
+      message: "What's the intern's email?",
+    },
+    {
+      type: 'input',
+      name: 'internSchool',
+      message: "What's the intern's school?",
+    },
+  
+    {
+      type: 'list',
+      message: 'Would you like to add another team member?',
+      name: 'addMember',
+      choices: ['Engineer', 'Intern', 'No thanks'],
+  },
+  ]);
+};
+
+async function init(){
+
+  var answers = await promptManager();
+  var more ="";
+  var manager = new Manager(answers.managerName,answers.managerID,answers.managerOffice,answers.managerEmail);
+  while(more!=="No thanks"){
+    more = answers.addMember;
+    if(more==="Engineer"){
+      answers = await promptEngineer();
+      var engineer = new Engineer(answers.engName,answers.engID,answers.engEmail,  answers.engGithub);
+      manager.team.push(engineer);
+    }
+    else if(answers.addMember==="Intern"){
+      answers = await promptIntern();
+      var intern = new Intern(answers.internName,answers.internID,answers.internEmail, answers.internSchool);
+      manager.team.push(intern);
+    }
+  }
+  console.log(manager);
+  //write the data into html file
+}
+
+init();
+
+
+
+
+function generateHtml(manager){
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <title>Document</title>
+  <title>The Team</title>
 </head>
 <body>
   <div class="jumbotron jumbotron-fluid">
@@ -61,14 +205,4 @@ const generateHTML = ({ name, location, github, linkedin }) =>
 </div>
 </body>
 </html>`;
-
-// Bonus using writeFileSync as a promise
-const init = () => {
-  promptUser()
-    // Use writeFileSync method to use promises instead of a callback function
-    .then((answers) => fs.writeFileSync('index.html', generateHTML(answers)))
-    .then(() => console.log('Successfully wrote to index.html'))
-    .catch((err) => console.error(err));
-};
-
-init();
+}
