@@ -1,4 +1,4 @@
-const Employee = require("../src/Employee");
+const Employee = require("../lib/Employee");
 // let emp = require('../src/Employee');
 // let Employee = emp.Employee;
 //import { Employee } from '../src/Employee';

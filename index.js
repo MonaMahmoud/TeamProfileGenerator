@@ -1,19 +1,10 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { off } = require('process');
-
-
-
-
-
-
-
-
-
-
-
-
-
+const Employee = require("../lib/Employee");
+const Engineer = require("../lib/Engineer");
+const Manager = require("../lib/Manager");
+const Intern = require("../lib/Intern");
+//const { off } = require('process');
 
  function promptManager(){
   return  inquirer.prompt([

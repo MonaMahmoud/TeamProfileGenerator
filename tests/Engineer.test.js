@@ -1,4 +1,4 @@
-const Engineer = require("../src/Engineer");
+const Engineer = require("../lib/Engineer");
 // let emp = require('../src/Employee');
 // let Employee = emp.Employee;
 //import { Employee } from '../src/Employee';
