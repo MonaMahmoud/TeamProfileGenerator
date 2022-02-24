@@ -3,57 +3,14 @@ const fs = require('fs');
 const { off } = require('process');
 
 
-class Employee{
-  constructor(name,id,email){
-    this.name = name;
-    this.id = id;
-    //this.officeNo = officeNo;
-    this.email = email;
-  }
-  getName(){
-    return this.name;
-  }
-  getId(){return this.id;}
-
-  getEmail(){return this.email;}
-
-  getRole(){return "Employee";}
-}
 
 
-class Manager extends Employee{
-  constructor(name,id, officeNo,email){
-    super(name, id, email);
-    this.officeNo = officeNo;
-  }
 
-  getRole(){return "Manager";};
 
-  getOfficeNo(){return this.officeNo;}
 
-  team = [];
-}
 
-class Engineer extends Employee{
-  constructor(name,id,email, github){
-    super(name, id,email);
-    this.github = github;
-  }
-  getGithub(){return this.github;}
 
-  getRole(){return "Engineer";}
-}
 
-class Intern extends Employee{
-  constructor(name,id,email, school){
-    super(name, id, email);
-    this.school = school;
-  }
-
-  getSchool(){return this.school;}
-
-  getRole(){return "Intern";}
-}
 
 
 
@@ -155,6 +112,34 @@ class Intern extends Employee{
   ]);
 };
 
+function generateHTML(manager){
+  return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>The Team</title>
+  </head>
+  <body>
+  
+      <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="Assets/images/manager.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">${manager.getName()}</h5>
+            <p class="card-text">ID: ${manager.getId()}
+                Email: ${manager.getEmail()}
+                Office: ${manager.getOfficeNo()}
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+  
+  
+  </body>
+  </html>`;
+}
+
 async function init(){
 
   var answers = await promptManager();
@@ -175,6 +160,15 @@ async function init(){
   }
   console.log(manager);
   //write the data into html file
+
+
+
+  fs.writeFile('index.html', generateHTML(manager), (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });
+
+  
 }
 
 init();
@@ -182,27 +176,3 @@ init();
 
 
 
-function generateHtml(manager){
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <title>The Team</title>
-</head>
-<body>
-  <div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">Hi! My name is ${name}</h1>
-    <p class="lead">I am from ${location}.</p>
-    <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
-    <ul class="list-group">
-      <li class="list-group-item">My GitHub username is ${github}</li>
-      <li class="list-group-item">LinkedIn: ${linkedin}</li>
-    </ul>
-  </div>
-</div>
-</body>
-</html>`;
-}

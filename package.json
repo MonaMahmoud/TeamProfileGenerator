@@ -2,5 +2,28 @@
   "dependencies": {
     "inquirer": "^8.2.0",
     "requirer": "^0.0.4"
-  }
+  },
+  "name": "teamprofilegenerator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "scripts": {
+    "test": "jest"
+   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonaMahmoud/TeamProfileGenerator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MonaMahmoud/TeamProfileGenerator/issues"
+  },
+  "homepage": "https://github.com/MonaMahmoud/TeamProfileGenerator#readme",
+  "description": ""
 }
+
+
