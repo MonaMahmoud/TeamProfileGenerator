@@ -1,9 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require("../lib/Employee");
-const Engineer = require("../lib/Engineer");
-const Manager = require("../lib/Manager");
-const Intern = require("../lib/Intern");
+//const Employee = require("./lib/Employee");
+const Engineer = require("./lib/Engineer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
 //const { off } = require('process');
 
  function promptManager(){
@@ -57,7 +57,7 @@ const Intern = require("../lib/Intern");
   {
     type: 'input',
     name: 'engGithub',
-    message: "What's the engineer's github?",
+    message: "What's the engineer's github username?",
   },
 
   {
@@ -104,6 +104,47 @@ const Intern = require("../lib/Intern");
 };
 
 function generateHTML(manager){
+  var teamHTML="";
+  if(manager.team.length!=0){
+    for(var i=0;i<manager.team.length;i++){
+      //console.log(i);
+      if(!(i%2)){
+        teamHTML+=`<div class="row">`;
+      }
+      if(manager.team[i].getRole()=="Engineer"){
+        
+        teamHTML+=`<div class="card col-4" style="width: 18rem;">
+        <img class="card-img-top" src="Assets/images/engineer.jfif" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Engineer: ${manager.team[i].getName()}</h5><br>
+          <p class="card-text">ID: ${manager.team[i].getId()}<br>
+           Email: <a href="mailto:${manager.team[i].getEmail()}">${manager.team[i].getEmail()}</a><br>
+              Github: <a href="https://github.com/${manager.team[i].getGithub()}">https://github.com/${manager.team[i].getGithub()}</a>
+          </p>
+         
+        </div>
+      </div>
+      `;
+      }
+      else if(manager.team[i].getRole()=="Intern"){
+        teamHTML+=`<div class="card col-4" style="width: 18rem;">
+        <img class="card-img-top" src="Assets/images/intern.jfif" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">Intern: ${manager.team[i].getName()}</h5><br>
+          <p class="card-text">ID: ${manager.team[i].getId()}<br>
+              Email: <a href="mailto:${manager.team[i].getEmail()}">${manager.team[i].getEmail()}</a><br>
+              School: ${manager.team[i].getSchool()}
+          </p>
+          
+        </div>
+      </div>
+      `
+      }
+      if(i%2){
+        teamHTML+=`</div>`;
+      }
+    }
+  }
   return `<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -113,20 +154,26 @@ function generateHTML(manager){
     <title>The Team</title>
   </head>
   <body>
-  
+
+  <h1 class="h1 text-center">The Team!</h1>
+ <div class="container">
+  <div class="row  justify-content-md-center">
       <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="Assets/images/manager.jpg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">${manager.getName()}</h5>
-            <p class="card-text">ID: ${manager.getId()}
-                Email: ${manager.getEmail()}
+            <p class="card-text">ID: ${manager.getId()}<br>
+            Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a><br>
                 Office: ${manager.getOfficeNo()}
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            
+          
           </div>
         </div>
-  
-  
+        </div>
+        ${teamHTML}
+  </div>
+  </div>
   </body>
   </html>`;
 }
@@ -157,6 +204,7 @@ async function init(){
   fs.writeFile('index.html', generateHTML(manager), (err) => {
     if (err) throw err;
     console.log('The file has been saved!');
+    console.log(generateHTML(manager));
   });
 
   
