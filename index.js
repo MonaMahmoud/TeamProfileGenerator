@@ -107,7 +107,6 @@ function generateHTML(manager){
   var teamHTML="";
   if(manager.team.length!=0){
     for(var i=0;i<manager.team.length;i++){
-      //console.log(i);
       if(!(i%2)){
         teamHTML+=`<div class="row">`;
       }
@@ -119,7 +118,7 @@ function generateHTML(manager){
           <h5 class="card-title">Engineer: ${manager.team[i].getName()}</h5><br>
           <p class="card-text">ID: ${manager.team[i].getId()}<br>
            Email: <a href="mailto:${manager.team[i].getEmail()}">${manager.team[i].getEmail()}</a><br>
-              Github: <a href="https://github.com/${manager.team[i].getGithub()}">https://github.com/${manager.team[i].getGithub()}</a>
+              Github: <a href="https://github.com/${manager.team[i].getGithub()}" target="_blank">https://github.com/${manager.team[i].getGithub()}</a>
           </p>
          
         </div>
@@ -196,18 +195,11 @@ async function init(){
       manager.team.push(intern);
     }
   }
-  console.log(manager);
+
   //write the data into html file
-
-
-
   fs.writeFile('index.html', generateHTML(manager), (err) => {
     if (err) throw err;
-    console.log('The file has been saved!');
-    console.log(generateHTML(manager));
   });
-
-  
 }
 
 init();

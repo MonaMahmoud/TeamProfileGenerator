@@ -35,19 +35,5 @@ describe("Engineer", () => {
 
       expect(engineer).toThrowError(err);
     });
-
-    it("should throw an error if 'id' is not a number", () => {
-      const engineer = () => new Engineer("Mona", "2");
-      const err = new Error("Expected parameter 'id' to be a non-negative number");
-
-      expect(engineer).toThrowError(err);
-    });
-
-    it("should throw an error if 'id' is less than 0", () => {
-      const engineer = () => new Engineer("Mona", -1);
-      const err = new Error("Expected parameter 'id' to be a non-negative number");
-
-      expect(engineer).toThrowError(err);
-    });
   });
 });

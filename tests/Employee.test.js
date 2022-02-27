@@ -1,8 +1,4 @@
 const Employee = require("../lib/Employee");
-// let emp = require('../src/Employee');
-// let Employee = emp.Employee;
-//import { Employee } from '../src/Employee';
-
 
 
 describe("Employee", () => {
@@ -31,20 +27,6 @@ describe("Employee", () => {
     it("should throw an error if 'name' is not a string", () => {
       const emp = () => new Employee(3, 2);
       const err = new Error("Expected parameter 'name' to be a non-empty string");
-
-      expect(emp).toThrowError(err);
-    });
-
-    it("should throw an error if 'id' is not a number", () => {
-      const emp = () => new Employee("Mona", "2");
-      const err = new Error("Expected parameter 'id' to be a non-negative number");
-
-      expect(emp).toThrowError(err);
-    });
-
-    it("should throw an error if 'id' is less than 0", () => {
-      const emp = () => new Employee("Mona", -1);
-      const err = new Error("Expected parameter 'id' to be a non-negative number");
 
       expect(emp).toThrowError(err);
     });

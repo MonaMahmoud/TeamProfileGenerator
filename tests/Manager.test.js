@@ -22,12 +22,12 @@ describe("Manager", () => {
       expect(manager).toThrow();
     });
 
-    it("should throw an error if not provided an id", () => {
-      const manager = () => new Manager("Mona");
-      const err = new Error("Expected parameter 'id' to be a non-negative number");
+    // it("should throw an error if not provided an id", () => {
+    //   const manager = () => new Manager("Mona");
+    //   const err = new Error("Expected parameter 'id' to be a non-negative number");
 
-      expect(manager).toThrowError(err);
-    });
+    //   expect(manager).toThrowError(err);
+    // });
 
     it("should throw an error if 'name' is not a string", () => {
       const manager = () => new Manager(3, 2);
@@ -35,14 +35,6 @@ describe("Manager", () => {
 
       expect(manager).toThrowError(err);
     });
-
-    it("should throw an error if 'id' is not a number", () => {
-      const manager = () => new Manager("Mona", "2");
-      const err = new Error("Expected parameter 'id' to be a non-negative number");
-
-      expect(manager).toThrowError(err);
-    });
-
     it("should throw an error if 'id' is less than 0", () => {
       const manager = () => new Manager("Mona", -1);
       const err = new Error("Expected parameter 'id' to be a non-negative number");
